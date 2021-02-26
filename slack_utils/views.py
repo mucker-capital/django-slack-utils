@@ -30,7 +30,10 @@ class CommandView(SlackView):
     def post(self, request, *args, **kwargs):
         form = CommandForm(request.POST)
         if form.is_valid():
-            text = form.cleaned_data.pop('text')
+            try:
+                text = form.cleaned_data.pop('text')
+            except:
+                text = None
             command = form.cleaned_data.pop('command')
             return self.handle_command(command, text, **form.cleaned_data)
 
